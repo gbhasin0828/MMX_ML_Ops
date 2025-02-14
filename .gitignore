@@ -1,0 +1,28 @@
+# Ignore OS-specific system files
+.DS_Store
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore Virtual Environment (if using one)
+venv/
+env/
+
+# Ignore Jupyter Notebook checkpoints (if using notebooks)
+.ipynb_checkpoints/
+
+# Ignore MLflow artifacts (logs & models should be manually controlled)
+mlruns/
+mlflow.db
+
+# Ignore Logs & Temporary Files
+logs/
+*.log
+*.tmp
+
+# Ignore DVC files (if removed)
+.dvc/
+

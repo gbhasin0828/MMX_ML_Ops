@@ -1,0 +1,27 @@
+name: ML Model Training & Deployment
+
+on:
+  workflow_dispatch:  # Allows manual triggering from GitHub UI
+
+jobs:
+  train-and-register:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛠️ Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"  # ✅ Updated for compatibility
+
+      - name: 📦 Install Dependencies
+        run: |
+          pip install -r src/requirements.txt
+          pip install mlflow
+
+      - name: 🧪 Run Pytest for Code Testing
+        run: pytest src/tests/
+
+      - name: 📊 Register Best Model in MLflow
+        run: python src/register_best_model.py

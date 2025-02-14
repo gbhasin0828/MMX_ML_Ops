@@ -1,0 +1,28 @@
+
+
+
+# ✅ Core Libraries for ML Model & Data Processing
+mlflow
+scikit-learn
+pandas
+numpy
+joblib
+pyyaml
+requests
+
+# ✅ GitHub Actions & Automation
+dvc
+dvc
+boto3
+pygithub
+
+# ✅ API & Web Frameworks (If Needed)
+fastapi
+uvicorn
+flask
+
+# ✅ Testing & CI/CD
+pytest
+pytest-cov
+flake8
+black
