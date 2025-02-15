@@ -5,12 +5,22 @@ import joblib
 import pandas as pd
 from sklearn.metrics import r2_score
 
-# ✅ Initialize DagsHub MLflow Tracking
-dagshub.init(repo_owner='gbhasin0828', repo_name='MMX_MLFlow', mlflow=True)
+# ✅ Read DagsHub Credentials from Environment Variables
+DAGSHUB_USER = os.getenv("DAGSHUB_USER", "gbhasin0828")  # Default to your username
+DAGSHUB_TOKEN = os.getenv("DAGSHUB_TOKEN")  # Should be set in GitHub Secrets
+
+if not DAGSHUB_TOKEN:
+    raise ValueError("❌ DAGSHUB_TOKEN is missing. Add it as a GitHub Secret!")
+
+# ✅ Authenticate DagsHub with Token
+dagshub.auth.add_app_token(DAGSHUB_TOKEN)
 
 # ✅ Set MLflow Tracking URI
-MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "https://dagshub.com/gbhasin0828/MMX_MLFlow.mlflow")
+MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", f"https://dagshub.com/{DAGSHUB_USER}/MMX_MLFlow.mlflow")
 mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
+
+# ✅ Initialize DagsHub MLflow Tracking
+dagshub.init(repo_owner=DAGSHUB_USER, repo_name="MMX_MLFlow", mlflow=True)
 
 # ✅ Define Experiment Name
 EXPERIMENT_NAME = "Marketing_Mix_Model_Tracking"
@@ -68,4 +78,4 @@ with mlflow.start_run(run_name="RandomForest_Model_Test"):
         registered_model_name=MODEL_NAME
     )
 
-print(f"🚀 First Model Registered in MLflow: {MODEL_NAME} | R² Score: {r2_new:.4f}")
+print(f"🚀 Model Registered in MLflow: {MODEL_NAME} | R² Score: {r2_new:.4f}")

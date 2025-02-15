@@ -23,9 +23,16 @@ jobs:
         run: pip install mlflow dagshub joblib pandas scikit-learn boto3
 
       - name: 🏗️ Set Up MLflow DagsHub Tracking
+      
         run: |
+          export DAGSHUB_USER="gbhasin0828"
+          export DAGSHUB_TOKEN="${{ secrets.DAGSHUB_TOKEN }}"
           export MLFLOW_TRACKING_URI="https://dagshub.com/gbhasin0828/MMX_MLFlow.mlflow"
+      
+          echo "DAGSHUB_USER=$DAGSHUB_USER" >> $GITHUB_ENV
+          echo "DAGSHUB_TOKEN=$DAGSHUB_TOKEN" >> $GITHUB_ENV
           echo "MLFLOW_TRACKING_URI=$MLFLOW_TRACKING_URI" >> $GITHUB_ENV
+      
 
       - name: 🚀 Train Model & Log in MLflow
         run: python src/register_first_model.py
