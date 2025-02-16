@@ -66,6 +66,8 @@ y_pred = y_scaler.inverse_transform(y_pred_scaled).flatten()
 r2_new = r2_score(y_true, y_pred)
 print(f"🚀 Computed R² Score: {r2_new:.4f}")
 
+
+
 # ✅ Start MLflow Run and Log Model
 with mlflow.start_run(run_name="RandomForest_Model_Test"):
     mlflow.log_param("model_type", "RandomForest")
@@ -75,7 +77,12 @@ with mlflow.start_run(run_name="RandomForest_Model_Test"):
     mlflow.sklearn.log_model(
         rf_model,
         "random_forest_model",
-        registered_model_name=MODEL_NAME
+        registered_model_name="Best_Marketing_Model"
     )
+    
+    # ✅ Register the model in MLflow Model Registry
+    model_uri = "runs:/{}/random_forest_model".format(mlflow.active_run().info.run_id)
+    mlflow.register_model(model_uri, "Best_Marketing_Model")
 
-print(f"🚀 Model Registered in MLflow: {MODEL_NAME} | R² Score: {r2_new:.4f}")
+print(f"🚀 Model Registered in MLflow: Best_Marketing_Model | R² Score: {r2_new:.4f}")
+
