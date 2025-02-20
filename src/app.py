@@ -77,6 +77,9 @@ if os.getenv("USE_NGROK") == "True":
     from pyngrok import ngrok
     public_url = ngrok.connect(5000).public_url
     logger.info(f"🚀 Flask API is live at: {public_url}")
+    print(f"🚀 Flask API is live at: {public_url}")  # ✅ Explicitly prints URL in logs
+
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
