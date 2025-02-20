@@ -4,17 +4,18 @@ import pandas as pd
 import os
 import logging
 
-app = Flask(__name__)
-
-# ✅ Set up logging
+# ✅ Enable Logging for Debugging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# ✅ Initialize Flask App
+app = Flask(__name__)
 
 # ✅ Set MLflow Tracking URI for DagsHub
 MLFLOW_TRACKING_URI = "https://dagshub.com/gbhasin0828/MMX_MLFlow.mlflow"
 mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
 
-# ✅ Fetch the latest model version dynamically
+# ✅ Fetch the Latest Model Version Dynamically
 client = mlflow.tracking.MlflowClient()
 model_versions = client.search_model_versions(f"name='Best_Marketing_Model_New'")
 
@@ -70,6 +71,12 @@ def predict():
 
     # ✅ Convert to JSON Response
     return df.to_json(orient="records"), 200
+
+# ✅ Expose API Using ngrok (For GitHub Actions Testing)
+if os.getenv("USE_NGROK") == "True":
+    from pyngrok import ngrok
+    public_url = ngrok.connect(5000).public_url
+    logger.info(f"🚀 Flask API is live at: {public_url}")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
