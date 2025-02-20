@@ -1,13 +1,15 @@
-name: 🚀 Train & Register MLflow Model
+name: 🚀 Deploy Flask API
 
 on:
   workflow_dispatch:  # ✅ Allows manual trigger
   push:
     paths:
-      - "data/data_copy.csv"  # ✅ Runs when data_copy.csv is updated
+      - "src/app.py"  # ✅ Runs when app.py is updated
+  workflow_run:
+    workflows: ["🚀 Train & Register MLflow Model"]  # ✅ Runs after model training
 
 jobs:
-  train-model:
+  deploy-flask:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,8 +24,8 @@ jobs:
       - name: 📦 Install Dependencies
         run: pip install --no-cache-dir -r src/requirements.txt
 
-      - name: 🔥 Install MLflow & DagsHub Client
-        run: pip install mlflow dagshub pandas requests boto3 joblib scikit-learn
+      - name: 🔥 Install MLflow & Flask
+        run: pip install mlflow flask pandas requests dagshub boto3
 
       - name: 🏗️ Set Up MLflow DagsHub Tracking
         run: |
@@ -35,5 +37,5 @@ jobs:
           echo "DAGSHUB_TOKEN=$DAGSHUB_TOKEN" >> $GITHUB_ENV
           echo "MLFLOW_TRACKING_URI=$MLFLOW_TRACKING_URI" >> $GITHUB_ENV
 
-      - name: 🚀 Run Model Training & Register in MLflow
-        run: python src/register_first_model.py
+      - name: 🚀 Deploy Flask API with New Model
+        run: python src/app.py
