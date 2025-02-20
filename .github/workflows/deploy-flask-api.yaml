@@ -1,12 +1,7 @@
 name: 🚀 Deploy Flask API
 
 on:
-  workflow_dispatch:  # ✅ Allows manual trigger
-  push:
-    paths:
-      - "src/app.py"  # ✅ Runs when app.py is updated
-  workflow_run:
-    workflows: ["🚀 Train & Register MLflow Model"]  # ✅ Runs after model training
+  workflow_dispatch:  # ✅ Manual trigger only
 
 jobs:
   deploy-flask:
@@ -22,20 +17,25 @@ jobs:
           python-version: "3.11"
 
       - name: 📦 Install Dependencies
-        run: pip install --no-cache-dir -r src/requirements.txt
-
-      - name: 🔥 Install MLflow & Flask
-        run: pip install mlflow flask pandas requests dagshub boto3
+        run: pip install --no-cache-dir -r src/requirements.txt pyngrok
 
       - name: 🏗️ Set Up MLflow DagsHub Tracking
         run: |
           export DAGSHUB_USER="gbhasin0828"
           export DAGSHUB_TOKEN="${{ secrets.DAGSHUB_TOKEN }}"
           export MLFLOW_TRACKING_URI="https://dagshub.com/gbhasin0828/MMX_MLFlow.mlflow"
-
           echo "DAGSHUB_USER=$DAGSHUB_USER" >> $GITHUB_ENV
           echo "DAGSHUB_TOKEN=$DAGSHUB_TOKEN" >> $GITHUB_ENV
           echo "MLFLOW_TRACKING_URI=$MLFLOW_TRACKING_URI" >> $GITHUB_ENV
 
-      - name: 🚀 Deploy Flask API with New Model
+      - name: ✅ Enable `ngrok` in Flask App
+        run: echo "USE_NGROK=True" >> $GITHUB_ENV
+
+      - name: 🚀 Deploy Flask API with `ngrok`
         run: python src/app.py
+
+      - name: 🔍 Check Logs for `ngrok` URL
+        run: |
+          sleep 5  # ✅ Wait for Flask & ngrok to start
+          echo "🔍 Checking for ngrok public URL..."
+          grep -i "Flask API is live at" src/app.py || echo "❌ ngrok URL not found"
