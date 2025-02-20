@@ -175,7 +175,7 @@ class CustomModelWrapper(mlflow.pyfunc.PythonModel):
 
 if r2_new > previous_r2:
 
-    with mlflow.start_run(run_name = "Best_Model_Registration)"):
+    with mlflow.start_run(run_name = "Best_Model_Registration"):
       mlflow.log_param("model_type", "Random Forest")
       mlflow.log_metric("r2_score", r2_new)
 
