@@ -19,6 +19,11 @@ jobs:
       - name: 📦 Install Dependencies
         run: pip install --no-cache-dir -r src/requirements.txt pyngrok
 
+      - name: 🔑 Authenticate ngrok
+        run: |
+          echo "Authenticating ngrok..."
+          ngrok authtoken ${{ secrets.NGROK_AUTH_TOKEN }}
+
       - name: 🏗️ Set Up MLflow DagsHub Tracking
         run: |
           export DAGSHUB_USER="gbhasin0828"
