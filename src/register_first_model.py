@@ -125,7 +125,7 @@ class CustomModelWrapper(mlflow.pyfunc.PythonModel):
         y_pred = self.extra_objects["y_scaler"].inverse_transform(y_pred_scaled.reshape(-1, 1)).flatten()
         return y_pred
 
-if r2_new > previous_r2:
+if r2_new >= previous_r2:
     with mlflow.start_run(run_name="Best_Model_Registration"):
         mlflow.log_param("model_type", "Random Forest")
         mlflow.log_metric("r2_score", r2_new)
