@@ -1,0 +1,26 @@
+name: 🚀 Manual Data Transformation Pipeline
+
+on:
+  workflow_dispatch:  # ✅ Allows manual trigger only
+
+jobs:
+  transform-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛠️ Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: 📦 Install Dependencies (PySpark)
+        run: pip install pyspark
+
+      - name: 🚀 Run Data Transformation Script
+        run: python src/data_pipeline.py
+
+      - name: 🏗️ Commit Transformed Data Back to GitHub
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add data/data_training.parquet
+          git commit -m "✅ Updated transformed data_training.parquet"
+          git push
