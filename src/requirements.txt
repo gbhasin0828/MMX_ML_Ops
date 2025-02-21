@@ -26,3 +26,11 @@ pytest
 pytest-cov
 flake8
 black
+
+!pip install mlflow pyngrok --quiet
+
+pyspark
+apache-airflow
+feast
+
+
