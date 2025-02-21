@@ -1,6 +1,3 @@
-
-
-
 # ✅ Core Libraries for ML Model & Data Processing
 mlflow
 scikit-learn
@@ -26,8 +23,6 @@ pytest
 pytest-cov
 flake8
 black
-
-!pip install mlflow pyngrok --quiet
 
 pyspark
 apache-airflow
