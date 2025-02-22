@@ -11,16 +11,20 @@ jobs:
       - name: 🛠️ Checkout Repository
         uses: actions/checkout@v3
 
-      - name: 🐍 Set Up Python 3.10 (Airflow Compatibility)
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-
       - name: 📦 Install Dependencies
         run: pip install --no-cache-dir -r src/requirements.txt
 
       - name: 🚀 Run Data Transformation Script
         run: python src/data_pipeline.py
+
+      - name: 🏗️ Debug: Check If File Exists
+        run: |
+          if [ -f data/data_training.parquet ]; then
+            echo "✅ Transformed data found!"
+          else
+            echo "❌ ERROR: Transformed data is missing!"
+            exit 1
+          fi
 
       - name: 🏗️ Commit Transformed Data Back to GitHub
         run: |
