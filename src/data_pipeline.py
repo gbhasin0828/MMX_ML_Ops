@@ -10,9 +10,10 @@ import os
 
 spark = SparkSession.builder.appName("DataTransformation").getOrCreate()
 
-# ✅ Define File Paths (Updated for Local System)
-input_path = "/Users/gauravbhasin/Desktop/DevOps_and_MLOps/MMX_ML_Ops/data/data_new.csv"
-output_path = "/Users/gauravbhasin/Desktop/DevOps_and_MLOps/MMX_ML_Ops/data/data_training.parquet"
+# ✅ Define Correct Paths for GitHub Actions
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))  # ✅ MMX_ML_Ops directory
+input_path = os.path.join(BASE_DIR, "data", "data_new.csv")
+output_path = os.path.join(BASE_DIR, "data", "data_training.parquet")
 
 def transform_data():
   df = spark.read.csv(input_path, header=True, inferSchema=True)
