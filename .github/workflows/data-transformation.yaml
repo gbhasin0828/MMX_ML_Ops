@@ -1,4 +1,4 @@
-name: 🚀 Manual Data Transformation Pipeline
+name: Manual Data Transformation Pipeline
 
 on:
   workflow_dispatch:  # ✅ Allows manual trigger only
