@@ -11,7 +11,12 @@ jobs:
       - name: 🛠️ Checkout Repository
         uses: actions/checkout@v3
 
-      - name: 📦 Install Dependencies (PySpark)
+      - name: 🐍 Set Up Python 3.10 (Airflow Compatibility)
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: 📦 Install Dependencies
         run: pip install --no-cache-dir -r src/requirements.txt
 
       - name: 🚀 Run Data Transformation Script

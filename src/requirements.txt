@@ -28,4 +28,6 @@ pyspark
 apache-airflow
 feast
 
+pendulum==2.1.2
+
 
